@@ -22,18 +22,20 @@ const char* panelWater = "waterpump";
 const char* panelAuto = "Auto";
 const char* panelRibbon = "ribbon_brightness";
 
-//  Создаём объект клиента класса EthernetClient
 EthernetClient client;
+
 //  Создаём объект iocontrol, передавая в конструктор название панели и клиента
 iocontrol mypanel(myPanelName, client);
 
 // определяем конфигурацию сети
-byte mac[] = {0xAE, 0xB2, 0x26, 0xE4, 0x4A, 0x5C}; // MAC-адрес
-byte ip[] = {192, 168, 0, 10}; // IP-адрес
-byte myDns[] = {192, 168, 0, 1}; // адрес DNS-сервера
-byte gateway[] = {192, 168, 0, 1}; // адрес сетевого шлюза
+byte mac[] = {0x28, 0x6C, 0x07, 0x98, 0x5C, 0x23}; // MAC-адрес
+byte ip[] = {192, 168, 31, 10}; // IP-адрес
+byte myDns[] = {10, 0, 0, 1}; // адрес DNS-сервера
+byte gateway[] = {10, 0, 16, 254}; // адрес сетевого шлюза
 byte subnet[] = {255, 255, 255, 0}; // маска подсети
+
 EthernetServer server(2000); // создаем сервер, порт 2000
+//  Создаём объект клиента класса EthernetClient
 
 bool waterHyst = false; // флаг помпы
 
@@ -65,6 +67,7 @@ void setup()
 
 void loop()
 {
+    client = server.available(); // ожидаем объект клиент
     //  Записываем переменные из объекта mypanel в локальные переменные
     bool line = mypanel.readBool(panelLine);
     bool water = mypanel.readBool(panelWater);
